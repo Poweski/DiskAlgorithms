@@ -28,15 +28,17 @@ public class DistanceCalculator {
             (Request req1, Request req2, int platterChangeTime,
              int cylinderChangeTime, int blockChangeTime) {
 
-        if (req1 == null)
+        if (req1 == null) {
             return req2.getPlatterID() * platterChangeTime
                     + req2.getSetID() * blockChangeTime
                     + req2.getCylinderID() * cylinderChangeTime;
+        }
 
-        if (req2 == null)
+        if (req2 == null) {
             return req1.getPlatterID() * platterChangeTime
                     + req1.getSetID() * blockChangeTime
                     + req1.getCylinderID() * cylinderChangeTime;
+        }
 
         int cylinderID1 = req1.getCylinderID();
         int blockID1 = req1.getSetID();

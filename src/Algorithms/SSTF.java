@@ -41,8 +41,9 @@ public class SSTF {
 
         while (nextRequest != null) {
 
-            if (nextRequest.getMomentOfNotification() > time)
+            if (nextRequest.getMomentOfNotification() > time) {
                 time = nextRequest.getMomentOfNotification();
+            }
 
             time += DistanceCalculator.getDifferenceInTimeBetweenTwoRequests(lastlyExecutedRequest,
                     nextRequest, platterChangeTime, cylinderChangeTime, setChangeTime);
@@ -70,13 +71,15 @@ public class SSTF {
 
     private Request findNextRequest () {
 
-        if (queueOfRequests.size() == 0)
+        if (queueOfRequests.isEmpty()) {
             return null;
+        }
 
-        if (lastlyExecutedRequest == null || queueOfRequests.size() == 1)
-            return queueOfRequests.remove(0);
+        if (lastlyExecutedRequest == null || queueOfRequests.size() == 1) {
+            return queueOfRequests.removeFirst();
+        }
 
-        Request nearestRequest = queueOfRequests.get(0);
+        Request nearestRequest = queueOfRequests.getFirst();
         int bestDifferenceInTime = DistanceCalculator.getDifferenceInTimeBetweenTwoRequests
                 (lastlyExecutedRequest,nearestRequest,platterChangeTime,cylinderChangeTime, setChangeTime);
 

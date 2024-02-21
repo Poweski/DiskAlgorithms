@@ -19,31 +19,42 @@ public class RequestGenerator {
 
             if (CONCENTRATED_ON_ONE_SIDE) {
                 int flag = rng.nextInt(4);
-                if (flag % 3 == 0)
-                    while (disc.getRequest(address) != null)
-                            address = rng.nextInt(discLength*3/4);
-                else
-                    while (disc.getRequest(address) != null)
-                        address = rng.nextInt(discLength/4) + discLength*3/4;
+                if (flag % 3 == 0) {
+                    while (disc.getRequest(address) != null) {
+                        address = rng.nextInt(discLength * 3 / 4);
+                    }
+                }
+                else {
+                    while (disc.getRequest(address) != null) {
+                        address = rng.nextInt(discLength / 4) + discLength * 3 / 4;
+                    }
+                }
             }
-            else
-                while (disc.getRequest(address) != null)
-                    address = rng.nextInt(discLength-1);
+            else {
+                while (disc.getRequest(address) != null) {
+                    address = rng.nextInt(discLength - 1);
+                }
+            }
 
             int momentOfNotification;
-            if (SIMULTANEOUS_REQUESTS)
+            if (SIMULTANEOUS_REQUESTS) {
                 momentOfNotification = 0;
-            else
-                momentOfNotification = rng.nextInt(discLength*REQUEST_PROCESSING_TIME*2/3);
+            }
+            else {
+                momentOfNotification = rng.nextInt(discLength * REQUEST_PROCESSING_TIME * 2 / 3);
+            }
 
             double deadline;
             if (DEADLINE) {
-                if (rng.nextInt(99) < PERCENTAGE_DEADLINE_CHANCE)
-                    deadline = momentOfNotification + rng.nextInt(discLength/5) + 15000;
-                else
-                    deadline = Double.POSITIVE_INFINITY;
-            } else
+                if (rng.nextInt(99) < PERCENTAGE_DEADLINE_CHANCE) {
+                    deadline = momentOfNotification + rng.nextInt(discLength / 5) + 15000;
+                }
+                else {
+                 deadline = Double.POSITIVE_INFINITY;
+                }
+            } else {
                 deadline = Double.POSITIVE_INFINITY;
+            }
 
             int[] position = disc.getCylinderBlockPlatterNumber(address);
             Request newRequest = new Request(position[0], position[1], position[2], momentOfNotification, deadline);

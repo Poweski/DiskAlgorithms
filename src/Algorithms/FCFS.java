@@ -41,8 +41,9 @@ public class FCFS {
 
         while (nextRequest != null) {
 
-            if (nextRequest.getMomentOfNotification() > time)
+            if (nextRequest.getMomentOfNotification() > time) {
                 time = nextRequest.getMomentOfNotification();
+            }
 
             time += DistanceCalculator.getDifferenceInTimeBetweenTwoRequests(lastlyExecutedRequest,
                     nextRequest, platterChangeTime, cylinderChangeTime, setChangeTime);
@@ -69,8 +70,9 @@ public class FCFS {
     }
 
     private Request findNextRequest () {
-        if (queueOfRequests.size() == 0)
+        if (queueOfRequests.isEmpty()) {
             return null;
-        return queueOfRequests.remove(0);
+        }
+        return queueOfRequests.removeFirst();
     }
 }

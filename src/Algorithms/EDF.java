@@ -41,8 +41,9 @@ public class EDF {
 
         while (nextRequest != null) {
 
-            if (nextRequest.getMomentOfNotification() > time)
+            if (nextRequest.getMomentOfNotification() > time) {
                 time = nextRequest.getMomentOfNotification();
+            }
 
             time += DistanceCalculator.getDifferenceInTimeBetweenTwoRequests(lastlyExecutedRequest,
                     nextRequest, platterChangeTime, cylinderChangeTime, setChangeTime);
@@ -70,19 +71,20 @@ public class EDF {
 
     private Request findNextRequest () {
 
-        if (queueOfRequests.size() == 0)
+        if (queueOfRequests.isEmpty())
             return null;
 
-        if (lastlyExecutedRequest == null || queueOfRequests.size() == 1)
-            return queueOfRequests.remove(0);
+        if (lastlyExecutedRequest == null || queueOfRequests.size() == 1) {
+            return queueOfRequests.removeFirst();
+        }
 
         ArrayList<Request> consideredRequests = new ArrayList<>();
-        consideredRequests.add(queueOfRequests.get(0));
+        consideredRequests.add(queueOfRequests.getFirst());
 
         int consideredSize = 1;
 
         while (consideredSize < queueOfRequests.size() && queueOfRequests.get(consideredSize).getMomentOfNotification()
-                <= Math.max(consideredRequests.get(0).getMomentOfNotification(), time)) {
+                <= Math.max(consideredRequests.getFirst().getMomentOfNotification(), time)) {
             consideredRequests.add(queueOfRequests.get(consideredSize));
             consideredSize++;
         }
@@ -94,14 +96,15 @@ public class EDF {
             int timeAfterArrivalToRequest = time + DistanceCalculator.getDifferenceInTimeBetweenTwoRequests
                     (lastlyExecutedRequest, request, platterChangeTime, cylinderChangeTime, setChangeTime);
 
-            if (request.getDeadline() == Double.POSITIVE_INFINITY)
-                return queueOfRequests.remove(0);
+            if (request.getDeadline() == Double.POSITIVE_INFINITY) {
+                return queueOfRequests.removeFirst();
+            }
 
             if (timeAfterArrivalToRequest <= request.getDeadline()) {
                 queueOfRequests.remove(request);
                 return request;
             }
         }
-        return queueOfRequests.remove(0);
+        return queueOfRequests.removeFirst();
     }
 }

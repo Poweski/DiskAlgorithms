@@ -45,8 +45,9 @@ public class Disc {
     }
 
     public int getAddress (Request request) {
-        if (request == null)
+        if (request == null) {
             return -1;
+        }
         return getAddress(request.getCylinderID(), request.getSetID(), request.getPlatterID());
     }
 
@@ -68,11 +69,15 @@ public class Disc {
 
     public Disc getSelfClone() {
         Request[][][] newReqTab = new Request[disc.length][disc[0].length][disc[0][0].length];
-        for (int cID = 0; cID < disc.length; cID++)
-            for (int sID = 0; sID < disc[0].length; sID++)
-                for (int pID = 0; pID < disc[0][0].length; pID++)
-                    if (disc[cID][sID][pID] != null)
+        for (int cID = 0; cID < disc.length; cID++) {
+            for (int sID = 0; sID < disc[0].length; sID++) {
+                for (int pID = 0; pID < disc[0][0].length; pID++) {
+                    if (disc[cID][sID][pID] != null) {
                         newReqTab[cID][sID][pID] = disc[cID][sID][pID].getClone();
+                    }
+                }
+            }
+        }
 
         return new Disc(newReqTab);
     }

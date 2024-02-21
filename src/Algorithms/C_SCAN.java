@@ -38,8 +38,9 @@ public class C_SCAN {
 
         while (nextRequest != null) {
 
-            if (time < nextRequest.getMomentOfNotification())
+            if (time < nextRequest.getMomentOfNotification()) {
                 time = nextRequest.getMomentOfNotification();
+            }
 
             time += DistanceCalculator.getDifferenceInTimeBetweenTwoRequests(lastlyExecutedRequest,
                     nextRequest, platterChangeTime, cylinderChangeTime, setChangeTime);
@@ -83,11 +84,13 @@ public class C_SCAN {
 
             potentialAddress += 1;
 
-            if (potentialAddress > disc.getLastAddress())
+            if (potentialAddress > disc.getLastAddress()) {
                 potentialAddress = 0;
+            }
 
-            if (lastServicedRequestAddress == potentialAddress)
+            if (lastServicedRequestAddress == potentialAddress) {
                 numberOfChecksForTheSameRequest++;
+            }
 
             potentialRequest = disc.getRequest(potentialAddress);
             tempTime += DistanceCalculator.getDifferenceInTimeBetweenTwoSegments(previousAddress, potentialAddress,
@@ -95,8 +98,9 @@ public class C_SCAN {
 
             if (potentialRequest != null) {
                 isAnyAlive = true;
-                if (potentialRequest.getMomentOfNotification() <= tempTime)
+                if (potentialRequest.getMomentOfNotification() <= tempTime) {
                     return disc.removeRequest(potentialAddress);
+                }
             }
 
             previousAddress = potentialAddress;

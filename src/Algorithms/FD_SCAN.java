@@ -43,8 +43,9 @@ public class FD_SCAN {
 
         while (nextRequest != null) {
 
-            if (nextRequest.getMomentOfNotification() > time)
+            if (nextRequest.getMomentOfNotification() > time) {
                 time = nextRequest.getMomentOfNotification();
+            }
 
             time += DistanceCalculator.getDifferenceInTimeBetweenTwoRequests(lastlyExecutedRequest,
                     nextRequest, platterChangeTime, cylinderChangeTime, setChangeTime);
@@ -72,17 +73,18 @@ public class FD_SCAN {
 
     private Request findNextRequest() {
 
-        if (queueOfRequests.size() == 0)
+        if (queueOfRequests.isEmpty()) {
             return null;
-
-        if (lastlyExecutedRequest == null)
-            return disc.removeRequest(disc.getAddress(queueOfRequests.remove(0)));
+        }
+        if (lastlyExecutedRequest == null) {
+            return disc.removeRequest(disc.getAddress(queueOfRequests.removeFirst()));
+        }
 
         ArrayList<Request> consideredRequests = new ArrayList<>();
-        consideredRequests.add(queueOfRequests.get(0));
+        consideredRequests.add(queueOfRequests.getFirst());
 
         int consideredSize = 1;
-        int maxNotificationTime = Math.max(consideredRequests.get(0).getMomentOfNotification(), time);
+        int maxNotificationTime = Math.max(consideredRequests.getFirst().getMomentOfNotification(), time);
 
         while (consideredSize < queueOfRequests.size() &&
                 queueOfRequests.get(consideredSize).getMomentOfNotification() <= maxNotificationTime) {
@@ -97,8 +99,9 @@ public class FD_SCAN {
             int timeAfterArrivalToRequest = time + DistanceCalculator.getDifferenceInTimeBetweenTwoRequests
                     (lastlyExecutedRequest, request, platterChangeTime, cylinderChangeTime, setChangeTime);
 
-            if (request.getDeadline() == Double.POSITIVE_INFINITY)
-                return queueOfRequests.remove(0);
+            if (request.getDeadline() == Double.POSITIVE_INFINITY) {
+                return queueOfRequests.removeFirst();
+            }
 
             if (timeAfterArrivalToRequest <= request.getDeadline()) {
 
@@ -106,32 +109,33 @@ public class FD_SCAN {
                 int change = (++actualAddress < disc.getAddress(request)) ? 1 : -1;
 
                 while (true) {
-
                     if (disc.getRequest(actualAddress) != null) {
                         if (disc.getRequest(actualAddress).getMomentOfNotification() <=
                                 (time + DistanceCalculator.getDifferenceInTimeBetweenTwoSegments
                                         (disc.getAddress(lastlyExecutedRequest), actualAddress, disc,
-                                                platterChangeTime, cylinderChangeTime, setChangeTime))){
+                                                platterChangeTime, cylinderChangeTime, setChangeTime))) {
                             break;
                         }
                     }
 
                     actualAddress += change;
 
-                    if (actualAddress == disc.getAddress(request))
+                    if (actualAddress == disc.getAddress(request)) {
                         break;
+                    }
                 }
 
-                for (int id = 0; id < queueOfRequests.size(); id++)
+                for (int id = 0; id < queueOfRequests.size(); id++) {
                     if (disc.getAddress(queueOfRequests.get(id)) == actualAddress) {
                         queueOfRequests.remove(id);
                         break;
                     }
+                }
 
                 return disc.removeRequest(actualAddress);
             }
         }
 
-        return queueOfRequests.remove(0);
+        return queueOfRequests.removeFirst();
     }
 }

@@ -39,8 +39,9 @@ public class SCAN {
 
         while (nextRequest != null) {
 
-            if (time < nextRequest.getMomentOfNotification())
+            if (time < nextRequest.getMomentOfNotification()) {
                 time = nextRequest.getMomentOfNotification();
+            }
 
             time += DistanceCalculator.getDifferenceInTimeBetweenTwoRequests(lastlyExecutedRequest,
                     nextRequest, platterChangeTime, cylinderChangeTime, setChangeTime);
@@ -71,8 +72,9 @@ public class SCAN {
         int tempTime;
         int previousAddress = disc.getAddress(lastlyExecutedRequest);
 
-        if (previousAddress == -1)
+        if (previousAddress == -1) {
             previousAddress = 0;
+        }
 
         int lastServicedRequestAddress = previousAddress;
         int potentialAddress = previousAddress;
@@ -82,19 +84,22 @@ public class SCAN {
 
         while (isAnyAlive || !(numberOfChecksForTheSameRequest == 2)) {
 
-            if(flag) {
+            if (flag) {
                 potentialAddress += 1;
-                if (potentialAddress == disc.getLastAddress())
+                if (potentialAddress == disc.getLastAddress()) {
                     flag = false;
+                }
             }
             else {
                 potentialAddress -= 1;
-                if (potentialAddress == 0)
+                if (potentialAddress == 0) {
                     flag = true;
+                }
             }
 
-            if (lastServicedRequestAddress == potentialAddress)
+            if (lastServicedRequestAddress == potentialAddress) {
                 numberOfChecksForTheSameRequest++;
+            }
 
             potentialRequest = disc.getRequest(potentialAddress);
 
@@ -103,8 +108,9 @@ public class SCAN {
 
             if (potentialRequest != null) {
                 isAnyAlive = true;
-                if(potentialRequest.getMomentOfNotification() <= tempTime)
+                if (potentialRequest.getMomentOfNotification() <= tempTime) {
                     return disc.removeRequest(potentialAddress);
+                }
             }
         }
 

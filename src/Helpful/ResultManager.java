@@ -19,8 +19,9 @@ public class ResultManager {
             int momentOfResponse = request.getMomentOfNotification() + request.getWaitingTime();
             if (request.getDeadline() != Double.POSITIVE_INFINITY) {
                 numberOfRequestsWithDeadline++;
-                if (momentOfResponse <= request.getDeadline())
+                if (momentOfResponse <= request.getDeadline()) {
                     servedBeforeDeadline++;
+                }
             }
         }
 
@@ -29,10 +30,12 @@ public class ResultManager {
         System.out.printf("\n" + name + " RESULTS:");
         System.out.printf("\nTotal time: %,d",time);
         System.out.printf("\nAverage waiting time: %,d", wholeWaitingTime/numberOfRequests);
-        if (numberOfRequestsWithDeadline != 0)
+        if (numberOfRequestsWithDeadline != 0) {
             System.out.printf("\n%% of requests served before deadline: %,.2f%%", percentageDeadline);
-        else
+        }
+        else {
             System.out.print("\n% of requests served before deadline: -");
+        }
         System.out.printf("\nMoves in order to change platter: %,d", platterChangeMoves);
         System.out.printf("\nMoves in order to change set: %,d", setChangeMoves);
         System.out.printf("\nMoves in order to change cylinder: %,d\n", cylinderChangeMoves);
